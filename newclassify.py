@@ -31,15 +31,27 @@ import pygame
 pygame.mixer.pre_init(8000, 16, 1, 1024) #frequency, size, channels, buffersize
 pygame.init()
 
-speaker_volume = 1
+speaker_volume = 1.0	
 pygame.mixer.music.set_volume(speaker_volume)
+rep = True
 def sound():
+    one = "alarm2.wav"
+    two = "alarm3.wav"
+    choice = ""
+    global rep
+#ahh help im gonna die here typing this code out...
+    if rep == True:
+      choice = one
+      rep = False
+    else:
+      choice = two
+      rep = True
     for i in range(1):
-        pygame.mixer.music.load("alarm2.wav")
+        pygame.mixer.music.load(choice)
         pygame.mixer.music.play()
+
         while pygame.mixer.music.get_busy() == True:
             continue
-
 #new code ends with this line ^^^^^^^^^^^^^^^^^^^^^^ but continues on later...
 
 
@@ -123,8 +135,9 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
 
 
 #AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-      if category_name =="cellular telephone" or category_name =="iPod" or category_name=="screen":
-          sound()
+      if (score >= 0.20) and (category_name =="cellular telephone" or category_name =="iPod" or category_name=="screen"):
+
+        sound()
 #AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 
 
@@ -147,7 +160,7 @@ def run(model: str, max_results: int, score_threshold: float, num_threads: int,
     # Stop the program if the ESC key is pressed.
     if cv2.waitKey(1) == 27:
       break
-    cv2.imshow('image_classification', image)
+    cv2.imshow('image_classification',cv2.resize(image,(720,540)))
 
   cap.release()
   cv2.destroyAllWindows()
@@ -204,3 +217,4 @@ def main():
 
 if __name__ == '__main__':
   main()
+
